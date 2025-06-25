@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+  db:
+    image: mariadb:10.11
+    container_name: nextcloud_db
+    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    environment:
+      - MYSQL_ROOT_PASSWORD=supersecure
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextclouduser
+      - MYSQL_PASSWORD=nextcloudpass
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - web
+
+  nextcloud:
+    image: nextcloud:latest
+    container_name: nextcloud_app
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      - MYSQL_PASSWORD=nextcloudpass
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextclouduser
+      - MYSQL_HOST=db
+    volumes:
+      - nextcloud_data:/var/www/html
+    networks:
+      - web
+
+  caddy:
+    image: caddy:2.7.6
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - web
+
+volumes:
+  db_data:
+  nextcloud_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  web:
+    external: false
