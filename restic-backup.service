@@ -1,0 +1,6 @@
+[Unit]
+Description=Restic Backup Service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/restic-backup.sh
