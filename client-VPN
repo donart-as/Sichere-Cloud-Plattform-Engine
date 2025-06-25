@@ -1,0 +1,10 @@
+[Interface]
+PrivateKey = 8OUDUAcW3b8v/68uHm52VDjVIj7lfo/+j41Prl+T11k=
+Address = 10.8.8.2/24
+DNS = 1.1.1.1
+
+[Peer]
+PublicKey = jDsDt4G5OOgdwF3GdYV7LRKUGRP7CRHq89jKQ0EJsSk=
+AllowedIPs = 10.8.8.1/32
+Endpoint = clouduser.live:51820
+PersistentKeepalive = 25
