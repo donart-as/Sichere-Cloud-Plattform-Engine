@@ -1,0 +1,3 @@
+clouduser.live {
+        reverse_proxy nextcloud_app:80
+    }
